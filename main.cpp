@@ -9,7 +9,13 @@ int digitizer(int number);
 int* toTable(int number, int digits, int array[]);
 void toText(int array[], int digits);
 
-string hun1[9]=
+string tho[3]=
+{
+	"tysiac",
+	"tysiace",
+	"tysiecy"
+};
+string hun[9]=
 {
 	"sto",
 	"dwiescie",
@@ -22,7 +28,7 @@ string hun1[9]=
 	"dziewiecset"
 };
 
-string ten1[9]=
+string ten[9]=
 {
 	"dziesiec",
 	"dwadziescia",
@@ -35,7 +41,7 @@ string ten1[9]=
 	"dziewiecdziesiat"
 };
 
-string uni1[9]=
+string uni[9]=
 {
 	"jeden",
 	"dwa",
@@ -51,10 +57,17 @@ string uni1[9]=
 
 int main(int argc, char *argv[])
 {
+	//cout<<uni1[5];
+
 	int number = atoi(argv[1]);
 	int digits=digitizer(number);
 	int* array = new int[digits];
+	
 	toTable(number,digits,array);
+	
+	//cout<< array[5]<<endl;
+	
+	toText(array,digits);
 
 	cout <<endl;
 
@@ -107,6 +120,69 @@ void toText(int array[], int digits)
 	}
 	else
 	{
+		bool hun1_flag=false;
+		bool ten1_flag=false;
+		bool uni1_flag=false;
+		bool hun0_flag=false;
+		bool ten0_flag=false;
+		bool uni0_flag=false;
+		switch(digits)
+		{
+			case 6:
+			if(array[digits-1]==0)
+				hun1_flag=true;
+			else
+				cout << hun[array[digits-1]-1] <<" ";
+			digits--;
+
+			case 5:
+			if(array[digits-1]==0)
+				ten1_flag=true;
+			else
+				cout << ten[array[digits-1]-1]<<" ";
+			digits--;
+
+			case 4:
+			if(array[digits-1]==0)
+				uni1_flag=true;
+			else
+			{
+				cout << uni[array[digits-1]-1]<<" ";
+
+				//tu bedzie obsluga odmiany tysiaca, tymczasem:
+				cout << tho[2]<<" ";
+			}
+			digits--;
+
+			case 3:
+			if(array[digits-1]==0)
+				hun0_flag=true;
+			else
+				cout << hun[array[digits-1]-1]<<" ";
+			digits--;
+
+			case 2:
+			if(array[digits-1]==0)
+				ten0_flag=true;
+			else
+			{
+				cout << ten[array[digits-1]-1]<<" ";
+
+				//tu bedzie obsluga liczb 11-19(taktyczny break;)
+			}
+			digits--;
+
+			case 1:
+			if(array[digits-1]==0)
+				uni0_flag=true;
+			else
+				cout << uni[array[digits-1]-1]<<" ";
+			digits--;
+
+
+
+
+		}
 		cout<<endl;
 	}
 }
