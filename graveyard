@@ -1,51 +1,58 @@
 #include <iostream>
 #include <math.h>
 #include <stdlib.h>
-#include <string>
-
 using namespace std;
 
 int digitizer(int number);
 int* toTable(int number, int digits, int array[]);
 void toText(int array[], int digits);
 
-string hun1[9]=
+enum units_t
 {
-	"sto",
-	"dwiescie",
-	"trzysta",
-	"czterysta",
-	"piecset",
-	"szescset",
-	"siedmeset",
-	"osiemset",
-	"dziewiecset"
+	jeden=1,
+	dwa=2,
+	trzy=3,
+	cztery=4,
+	piec=5,
+	szesc=6,
+	siedem=7,
+	osiem=8,
+	dziewiec=9
+
 };
 
-string ten1[9]=
+enum tens_t
 {
-	"dziesiec",
-	"dwadziescia",
-	"trzydziesci",
-	"czterdziesci",
-	"piecdziesiat",
-	"szescdziesiat",
-	"siedemdziesiat",
-	"osiemdziesiat",
-	"dziewiecdziesiat"
+	dziesiec=1,
+	dwadziescia=2,
+	trzydziesci=3,
+	czterdziesci=4,
+	piecdziesiat=5,
+	szescdziesiat=6,
+	siedemdziesiat=7,
+	osiemdziesiat=8,
+	dziewiecdziesiat=9
+
 };
 
-string uni1[9]=
+enum hundreds_t
 {
-	"jeden",
-	"dwa",
-	"trzy",
-	"cztery",
-	"piec",
-	"szesc",
-	"siedem",
-	"osiem",
-	"dziewiec"
+	sto=1,
+	dwiescie=2,
+	trzysta=3,
+	czterysta=4,
+	piecset=5,
+	szescset=6,
+	siedemset=7,
+	osiemset=8,
+	dziewiecset=9
+};
+
+enum thousands_t
+{
+	tysiac=1,
+	tysiace=2,
+	tysiecy=3
 };
 
 
@@ -107,6 +114,6 @@ void toText(int array[], int digits)
 	}
 	else
 	{
-		cout<<endl;
+		cout<<
 	}
 }
