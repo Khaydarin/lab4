@@ -8,67 +8,44 @@ using namespace std;
 int digitizer(int number);
 int* toTable(int number, int digits, int array[]);
 void toText(int array[], int digits);
+int kValue(int number);
 
 string tho[3]=
 {
-	"tysiac",
-	"tysiace",
-	"tysiecy"
+	"tysiac","tysiace","tysiecy"
 };
 string hun[9]=
 {
-	"sto",
-	"dwiescie",
-	"trzysta",
-	"czterysta",
-	"piecset",
-	"szescset",
-	"siedmeset",
-	"osiemset",
-	"dziewiecset"
+	"sto","dwiescie","trzysta","czterysta","piecset","szescset","siedemset","osiemset","dziewiecset"
 };
 
+string teen[9]=
+{
+	"jedenascie","dwanascie","trzynascie","czternascie","pietnascie","szesnascie","siedemnascie","osiemnascie","dziewietnascie"
+};
 string ten[9]=
 {
-	"dziesiec",
-	"dwadziescia",
-	"trzydziesci",
-	"czterdziesci",
-	"piecdziesiat",
-	"szescdziesiat",
-	"siedemdziesiat",
-	"osiemdziesiat",
-	"dziewiecdziesiat"
+	"dziesiec","dwadziescia","trzydziesci","czterdziesci","piecdziesiat","szescdziesiat","siedemdziesiat","osiemdziesiat","dziewiecdziesiat"
 };
 
 string uni[9]=
 {
-	"jeden",
-	"dwa",
-	"trzy",
-	"cztery",
-	"piec",
-	"szesc",
-	"siedem",
-	"osiem",
-	"dziewiec"
+	"jeden","dwa","trzy","cztery","piec","szesc","siedem","osiem","dziewiec"
 };
 
 
 int main(int argc, char *argv[])
 {
-	//cout<<uni1[5];
+	int n = atoi(argv[1]);
+	int k =1;
 
+	/*
 	int number = atoi(argv[1]);
 	int digits=digitizer(number);
 	int* array = new int[digits];
-	
 	toTable(number,digits,array);
-	
-	//cout<< array[5]<<endl;
-	
 	toText(array,digits);
-
+	*/
 	cout <<endl;
 
 
@@ -111,6 +88,11 @@ int* toTable(int number, int digits, int array[])
 	*/
 }
 
+int kValue(int n)
+{
+
+}
+
 void toText(int array[], int digits)
 {
 	int max_digits=6;
@@ -139,7 +121,17 @@ void toText(int array[], int digits)
 			if(array[digits-1]==0)
 				ten1_flag=true;
 			else
-				cout << ten[array[digits-1]-1]<<" ";
+			{
+				if(array[digits-1]==1&&array[digits-2]!=0)
+				{
+					cout << teen[array[digits-2]-1]<<" ";
+					digits--;
+					goto tysiac;
+				}
+				else
+					cout << ten[array[digits-1]-1]<<" ";
+
+			}
 			digits--;
 
 			case 4:
@@ -149,8 +141,16 @@ void toText(int array[], int digits)
 			{
 				cout << uni[array[digits-1]-1]<<" ";
 
-				//tu bedzie obsluga odmiany tysiaca, tymczasem:
-				cout << tho[2]<<" ";
+				tysiac: //przepraszam :(
+
+				if((ten1_flag&&hun1_flag&&(array[digits-1]==1))||(digits==4)&&(array[digits-1]==1))
+					cout << tho[0]<<" ";
+				else if((array[digits]==1)&&(!uni1_flag))
+					cout << tho[2]<<" ";
+				else if((array[digits-1]==2)||(array[digits-1]==3)||(array[digits-1]==4))
+					cout << tho[1]<<" ";
+				else
+					cout << tho[2]<<" ";
 			}
 			digits--;
 
@@ -166,9 +166,16 @@ void toText(int array[], int digits)
 				ten0_flag=true;
 			else
 			{
-				cout << ten[array[digits-1]-1]<<" ";
+				if(array[digits-1]==1&&array[digits-2]!=0)
+				{
+					cout << teen[array[digits-2]-1]<<" ";
+					digits--;
+					break;
+			
+				}
+				else
+					cout << ten[array[digits-1]-1]<<" ";
 
-				//tu bedzie obsluga liczb 11-19(taktyczny break;)
 			}
 			digits--;
 
