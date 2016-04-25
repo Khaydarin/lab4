@@ -9,6 +9,7 @@ int digitizer(int number);
 int* toTable(int number, int digits, int array[]);
 void toText(int array[], int digits);
 int kValue(int number);
+bool binCheck(int array[]);
 
 string tho[3]=
 {
@@ -37,20 +38,20 @@ string uni[9]=
 int main(int argc, char *argv[])
 {
 	int n = atoi(argv[1]);
-	int k =1;
-
+	int d = digitizer(n);
+	int* test = new int[d];
+	toTable(n,d,test);
+	binCheck(test);
+	delete []test;
 	/*
 	int number = atoi(argv[1]);
 	int digits=digitizer(number);
 	int* array = new int[digits];
 	toTable(number,digits,array);
 	toText(array,digits);
-	*/
 	cout <<endl;
-
-
-
 	delete []array;
+	*/
 }
 
 int digitizer(int number)
@@ -74,7 +75,7 @@ int* toTable(int number, int digits, int array[])
 	for(p;p<digits;p++)
 	{
 		array[p]=number%b;
-		number=number/10;
+		number=number/b;
 	}
 
 	return array;
@@ -90,7 +91,29 @@ int* toTable(int number, int digits, int array[])
 
 int kValue(int n)
 {
+	int k = 1;
+	int bin = n*k;
 
+
+}
+
+bool binCheck(int array[])
+{
+	int i=0;
+	bool isBin = true;
+	while(array[i]!='\0')
+	{
+		cout << array[i] <<" ";
+		if((array[i]!=0)||(array[i]!=1))
+		{
+			isBin = false;
+			break;
+		}
+		
+		i++;
+	}
+	cout << "t "<<isBin <<endl;
+	return isBin;
 }
 
 void toText(int array[], int digits)
