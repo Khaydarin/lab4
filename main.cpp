@@ -9,7 +9,7 @@ int digitizer(int number);
 int* toTable(int number, int digits, int array[]);
 void toText(int array[], int digits);
 int kValue(int number);
-bool binCheck(int array[]);
+bool binCheck(int array[], int digits);
 
 string tho[3]=
 {
@@ -38,20 +38,25 @@ string uni[9]=
 int main(int argc, char *argv[])
 {
 	int n = atoi(argv[1]);
-	int d = digitizer(n);
-	int* test = new int[d];
-	toTable(n,d,test);
-	binCheck(test);
-	delete []test;
-	/*
-	int number = atoi(argv[1]);
-	int digits=digitizer(number);
-	int* array = new int[digits];
-	toTable(number,digits,array);
-	toText(array,digits);
+
+	int k = kValue(n);
+	int dk = digitizer(k);
+	int* kArray = new int[dk];
+	toTable(k,dk,kArray);
+	int b = n*k;
+	int db = digitizer(b);
+	int* nArray = new int[db];
+	toTable(b,db,nArray);
+
+	cout << "Szukane k= "<<k<<": "<<endl;
+	toText(kArray,dk);
+	cout << "Wynik mnozenia= "<<b<<": "<<endl;
+	toText(nArray,db);
+
+	delete[] kArray;
+	delete[] nArray;
+
 	cout <<endl;
-	delete []array;
-	*/
 }
 
 int digitizer(int number)
@@ -71,7 +76,6 @@ int* toTable(int number, int digits, int array[])
 	int b=10;
 	int p=0;
 	
-
 	for(p;p<digits;p++)
 	{
 		array[p]=number%b;
@@ -79,40 +83,45 @@ int* toTable(int number, int digits, int array[])
 	}
 
 	return array;
-
-	/*for(int i=0;i<digits;i++)
-	{
-		cout << tab[i];
-		cout<<endl;
-	}
-	return 0;
-	*/
 }
 
-int kValue(int n)
+int kValue(int number)
 {
 	int k = 1;
-	int bin = n*k;
+	int bin=number*k;
+	int digits=digitizer(bin);
+	int* array = new int[digits];
+	toTable(bin,digits,array);
+
+	while(!binCheck(array,digits))
+	{
+		
+		k++;
+		bin=number*k;
+		digits = digitizer(bin);
+		delete[] array;
+		array = new int[digits];
+		toTable(bin,digits,array);
+	}
+	delete[] array;
+	return k;
 
 
 }
 
-bool binCheck(int array[])
+bool binCheck(int array[], int digits)
 {
 	int i=0;
 	bool isBin = true;
-	while(array[i]!='\0')
+	while(i<digits)
 	{
-		cout << array[i] <<" ";
-		if((array[i]!=0)||(array[i]!=1))
+		if((array[i]!=0)&&(array[i]!=1))
 		{
 			isBin = false;
 			break;
 		}
-		
 		i++;
 	}
-	cout << "t "<<isBin <<endl;
 	return isBin;
 }
 
@@ -128,9 +137,7 @@ void toText(int array[], int digits)
 		bool hun1_flag=false;
 		bool ten1_flag=false;
 		bool uni1_flag=false;
-		bool hun0_flag=false;
-		bool ten0_flag=false;
-		bool uni0_flag=false;
+
 		switch(digits)
 		{
 			case 6:
@@ -162,31 +169,34 @@ void toText(int array[], int digits)
 				uni1_flag=true;
 			else
 			{
-				cout << uni[array[digits-1]-1]<<" ";
-
-				tysiac: //przepraszam :(
-
-				if((ten1_flag&&hun1_flag&&(array[digits-1]==1))||(digits==4)&&(array[digits-1]==1))
-					cout << tho[0]<<" ";
-				else if((array[digits]==1)&&(!uni1_flag))
-					cout << tho[2]<<" ";
-				else if((array[digits-1]==2)||(array[digits-1]==3)||(array[digits-1]==4))
-					cout << tho[1]<<" ";
+				if(array[digits-1]==1);
 				else
-					cout << tho[2]<<" ";
+					cout << uni[array[digits-1]-1]<<" ";
+
+				
+
 			}
+			tysiac: //przepraszam :(
+
+			if((ten1_flag&&hun1_flag&&(array[digits-1]==1))||(digits==4)&&(array[digits-1]==1))
+				cout << tho[0]<<" ";
+			else if((array[digits]==1)&&(!uni1_flag))
+				cout << tho[2]<<" ";
+			else if((array[digits-1]==2)||(array[digits-1]==3)||(array[digits-1]==4))
+				cout << tho[1]<<" ";
+			else
+				cout << tho[2]<<" ";
+
 			digits--;
 
 			case 3:
-			if(array[digits-1]==0)
-				hun0_flag=true;
+			if(array[digits-1]==0);
 			else
 				cout << hun[array[digits-1]-1]<<" ";
 			digits--;
 
 			case 2:
-			if(array[digits-1]==0)
-				ten0_flag=true;
+			if(array[digits-1]==0);
 			else
 			{
 				if(array[digits-1]==1&&array[digits-2]!=0)
@@ -194,7 +204,7 @@ void toText(int array[], int digits)
 					cout << teen[array[digits-2]-1]<<" ";
 					digits--;
 					break;
-			
+
 				}
 				else
 					cout << ten[array[digits-1]-1]<<" ";
@@ -203,8 +213,7 @@ void toText(int array[], int digits)
 			digits--;
 
 			case 1:
-			if(array[digits-1]==0)
-				uni0_flag=true;
+			if(array[digits-1]==0);
 			else
 				cout << uni[array[digits-1]-1]<<" ";
 			digits--;
